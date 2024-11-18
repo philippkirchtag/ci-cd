@@ -1,4 +1,4 @@
-name: Continuous Integratiobb abd Deployment
+name: Continuous Integration and Deployment
 
 on:
     push:
@@ -27,3 +27,13 @@ jobs:
               
             - name: Build App 🚢
               run: dotnet build -c Release --no-restore ci-cd.sln
+
+            - name: Publish App
+              run: dotnet publish -c Release -o .out ci-cd.sln
+            
+            - name: Deploy to Azure Web Apps🍌
+              uses: azure/webapps-deploy@v2
+              with:
+                app-name: MyWeatherApiyolo
+                publish-profile: ${{ secrets.MYWETAHERAPIYOLO }}
+                package: .out
